@@ -10,7 +10,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.tin.moneybox.User;
+import com.example.tin.moneybox.models.Product;
+import com.example.tin.moneybox.models.User;
+import com.example.tin.moneybox.utils.ProductJsonUtils;
 import com.example.tin.moneybox.utils.UserJsonUtils;
 
 import org.json.JSONException;
@@ -26,12 +28,15 @@ public class NetworkConnection {
     private static final String TAG = NetworkConnection.class.getSimpleName();
 
     private ArrayList<User> mUser = new ArrayList<>();
+    private ArrayList<Product> mProduct = new ArrayList<>();
+
 
     /* Header Keys */
     private static final String APP_ID_KEY = "AppId";
     private static final String CONTENT_TYPE_KEY = "Content-Type";
     private static final String APP_VERSION_KEY = "appVersion";
     private static final String API_VERSION_KEY = "apiVersion";
+    private static final String AUTHORIZATION_KEY = "Authorization";
     /* Header Values */
     private static final String APP_ID_VALUE = "3a97b932a9d449c981b595";
     private static final String CONTENT_TYPE_VALUE = "application/json";
@@ -70,13 +75,11 @@ public class NetworkConnection {
 
         /* Handler for the JSON response when server returns ok */
         Response.Listener<String> responseListener = new Response.Listener<String>() {
-
-            /* If response is successful */
             @Override
             public void onResponse(String loginResponse) {
 
                 /** Here we handle the response*/
-                Log.d(TAG, "onReponse loginResponse: " + loginResponse);
+                Log.d(TAG, "onResponse loginResponse: " + loginResponse);
 
                 mUser = UserJsonUtils.parseUserJson(loginResponse);
 
@@ -87,10 +90,9 @@ public class NetworkConnection {
 
         /* Handler for when the server returns an error response */
         Response.ErrorListener errorListener = new Response.ErrorListener() {
-
-            /* If response is unsuccessful */
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 Log.d(TAG, "onErrorResponse login() " + error);
                 error.printStackTrace();
             }
@@ -142,8 +144,58 @@ public class NetworkConnection {
                 params.put(IDFA_KEY, IDFA_VALUE);
                 return params;
             }
+        };
 
+        mRequestQueue.add(request);
+    }
 
+    public void getThisWeekResponseFromHttpUrl(String url, final ArrayList<User> user, final NetworkListener.ThisWeekListener listener) {
+
+        //TODO: Save Bearer In SavedPreferences Instead, this will ensure it's easier to access??
+        final String bearerToken = "Bearer " + user.get(0).getSessionBearerToken();
+
+        Log.d(TAG, "BearerToken: " + bearerToken);
+
+        /* Handler for the JSON response when server returns ok */
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+            /* If response is successful */
+            @Override
+            public void onResponse(String response) {
+
+                /** Here we handle the response*/
+                mProduct = ProductJsonUtils.parseProductJson(response);
+
+                Log.d(TAG, "thisWeek Response: " + mProduct);
+
+                listener.getResponse(mProduct);
+
+            }
+        };
+
+        /* Handler for when the server returns an error response */
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.d(TAG, "onErrorResponse login() " + error);
+                error.printStackTrace();
+            }
+        };
+
+        /* This is the body of the Request */
+        StringRequest request = new StringRequest(Request.Method.GET, url, responseListener, errorListener) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put(APP_ID_KEY, APP_ID_VALUE);
+                headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
+                headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
+                headers.put(API_VERSION_KEY, API_VERSION_VALUE);
+                headers.put(AUTHORIZATION_KEY, bearerToken);
+                return headers;
+            }
         };
 
         mRequestQueue.add(request);

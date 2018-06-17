@@ -1,14 +1,20 @@
 package com.example.tin.moneybox;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.net.MalformedURLException;
+import com.example.tin.moneybox.models.User;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.LoginScreen {
+
+    /* Key for Intent */
+    public static String USER_ARRAY_LIST;
 
     private LoginPresenter loginPresenter;
 
@@ -42,5 +48,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
             }
         });
+    }
+
+    @Override
+    public void launchMainActivity(ArrayList<User> user) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putParcelableArrayListExtra(USER_ARRAY_LIST, user);
+
+        startActivity(intent);
     }
 }

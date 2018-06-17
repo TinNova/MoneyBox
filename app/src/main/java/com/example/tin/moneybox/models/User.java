@@ -1,4 +1,4 @@
-package com.example.tin.moneybox;
+package com.example.tin.moneybox.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

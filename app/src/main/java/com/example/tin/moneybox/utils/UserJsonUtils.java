@@ -2,7 +2,7 @@ package com.example.tin.moneybox.utils;
 
 import android.util.Log;
 
-import com.example.tin.moneybox.User;
+import com.example.tin.moneybox.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,10 +14,11 @@ public class UserJsonUtils {
 
     private static final String TAG = UserJsonUtils.class.getSimpleName();
 
+    /* Values */
     private static final String USER_FIRST_NAME = "FirstName";
     private static final String USER_LAST_NAME = "LastName";
     private static final String SESSION_BEARER_TOKEN = "BearerToken";
-
+    /* JsonObjects */
     private static final String JSON_OBJECT_USER = "User";
     private static final String JSON_OBJECT_SESSION = "Session";
 

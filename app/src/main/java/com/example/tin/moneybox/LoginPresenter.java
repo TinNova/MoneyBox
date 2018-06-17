@@ -4,6 +4,7 @@ package com.example.tin.moneybox;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.tin.moneybox.models.User;
 import com.example.tin.moneybox.network.NetworkConnection;
 import com.example.tin.moneybox.network.NetworkListener;
 import com.example.tin.moneybox.utils.UrlUtils;
@@ -25,7 +26,6 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
 
     @Override
     public void startLogin(Context context, String email, String pass) {
-        // CODE FOR PASSING USERNAME AND PASSWORD TO SERVER
 
         Log.d(TAG, "email & password: " + email + ", " + pass);
 
@@ -38,7 +38,7 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
             @Override
             public void getResponse(ArrayList<User> user) {
 
-
+                loginScreen.launchMainActivity(user);
 
             }
         });
