@@ -24,13 +24,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/mainAct_Logout_Btn"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainAct_Title" />
 
     <Button
-        android:id="@+id/mainAct_Logout_Btn"
+        android:id="@+id/btn_Logout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

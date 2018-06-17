@@ -14,10 +14,14 @@ public interface MainContract {
     interface MainScreen {
 
         void showProducts(ArrayList<Product> products);
+
+        void logout();
     }
 
     interface MainPresenter {
 
         void getThisWeekResponse(MainActivity mainActivity, ArrayList<User> user);
+
+        void startLogOut(MainActivity mainActivity);
     }
 }

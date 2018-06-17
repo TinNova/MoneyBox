@@ -1,6 +1,8 @@
 package com.example.tin.moneybox;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tin.moneybox.models.Product;
 import com.example.tin.moneybox.models.User;
@@ -38,6 +40,27 @@ public class MainPresenter implements MainContract.MainPresenter {
                 mainScreen.showProducts(products);
             }
         });
+    }
 
+    @Override
+    public void startLogOut(MainActivity context) {
+
+        String logoutUrl = UrlUtils.getLogoutUrl();
+
+        //TODO: Implement Logout
+        Toast.makeText(context, "logout...", Toast.LENGTH_SHORT).show();
+
+        //TODO: CHECK IF TOKEN HAS EXPIRED BEFORE TRYING TO LOGOUT
+        /* Use the String URL "logoutUrl" to request the JSON from the server and parse it */
+        NetworkConnection.getInstance(context).getLogOutResponseFromHttpUrl(logoutUrl, new NetworkListener.LogoutListener() {
+
+            @Override
+            public void getResponse(String string) {
+
+                Log.v(TAG, "Logout Successful: " + string);
+
+                mainScreen.logout();
+            }
+        });
     }
 }

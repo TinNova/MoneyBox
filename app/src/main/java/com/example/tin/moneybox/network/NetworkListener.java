@@ -14,4 +14,8 @@ public interface NetworkListener {
     interface ThisWeekListener {
         void getResponse(ArrayList<Product> products);
     }
+
+    interface LogoutListener {
+        void getResponse(String string);
+    }
 }

@@ -30,7 +30,6 @@ public class NetworkConnection {
     private ArrayList<User> mUser = new ArrayList<>();
     private ArrayList<Product> mProduct = new ArrayList<>();
 
-
     /* Header Keys */
     private static final String APP_ID_KEY = "AppId";
     private static final String CONTENT_TYPE_KEY = "Content-Type";
@@ -42,6 +41,7 @@ public class NetworkConnection {
     private static final String CONTENT_TYPE_VALUE = "application/json";
     private static final String APP_VERSION_VALUE = "4.11.0";
     private static final String API_VERSION_VALUE = "3.0.0";
+    private String BEAER_TOKEN;
 
     /* Login Credential Keys */
     private static final String EMAIL_KEY = "Email";
@@ -152,9 +152,9 @@ public class NetworkConnection {
     public void getThisWeekResponseFromHttpUrl(String url, final ArrayList<User> user, final NetworkListener.ThisWeekListener listener) {
 
         //TODO: Save Bearer In SavedPreferences Instead, this will ensure it's easier to access??
-        final String bearerToken = "Bearer " + user.get(0).getSessionBearerToken();
+        BEAER_TOKEN = "Bearer " + user.get(0).getSessionBearerToken();
 
-        Log.d(TAG, "BearerToken: " + bearerToken);
+        Log.d(TAG, "BearerToken: " + BEAER_TOKEN);
 
         /* Handler for the JSON response when server returns ok */
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -193,7 +193,50 @@ public class NetworkConnection {
                 headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
                 headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
                 headers.put(API_VERSION_KEY, API_VERSION_VALUE);
-                headers.put(AUTHORIZATION_KEY, bearerToken);
+                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
+                return headers;
+            }
+        };
+
+        mRequestQueue.add(request);
+    }
+
+    public void getLogOutResponseFromHttpUrl(String url, final NetworkListener.LogoutListener listener) {
+
+        /* Handler for the JSON response when server returns ok */
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+            /* If response is successful */
+            @Override
+            public void onResponse(String response) {
+
+                /** Here we handle the response*/
+                String logout = "successful logout";
+                listener.getResponse(logout);
+            }
+        };
+
+        /* Handler for when the server returns an error response */
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.d(TAG, "onErrorResponse login() " + error);
+                error.printStackTrace();
+            }
+        };
+
+        /* This is the body of the Request */
+        StringRequest request = new StringRequest(Request.Method.POST, url, responseListener, errorListener) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put(APP_ID_KEY, APP_ID_VALUE);
+                headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
+                headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
+                headers.put(API_VERSION_KEY, API_VERSION_VALUE);
+                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
                 return headers;
             }
         };

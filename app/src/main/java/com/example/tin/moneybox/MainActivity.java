@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tin.moneybox.models.Product;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     String lastName;
     String title;
 
+    private Button logOutButton;
+
     /*
      * Needed to populate the Adapter and the RecyclerView
      */
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         setContentView(R.layout.activity_main);
 
         mainPresenter = new MainPresenter(this);
+
+        logOutButton = findViewById(R.id.btn_Logout);
 
         /* Setting up the RecyclerView and Adapter*/
         mRecyclerView = findViewById(R.id.rV_productList);
@@ -65,6 +71,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
             Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
         }
 
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mainPresenter.startLogOut(MainActivity.this);
+            }
+        });
+
         Log.d(TAG, "mUser: " + mUser);
 
     }
@@ -74,5 +88,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         mProducts = products;
         mAdapter.setProducts(products);
         //hideLoading();
+    }
+
+    @Override
+    public void logout() {
+
+        //TODO: Delete username, password and saved token
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         setContentView(R.layout.activity_login);
 
         /* Initialising all of the buttons */
-        loginButton = findViewById(R.id.loginButton);
+        loginButton = findViewById(R.id.btn_Login);
         emailEditText = findViewById(R.id.emailEditText);
         passEditText = findViewById(R.id.passEditText);
 
