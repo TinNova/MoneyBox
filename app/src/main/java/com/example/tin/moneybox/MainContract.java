@@ -1,5 +1,6 @@
 package com.example.tin.moneybox;
 
+import com.example.tin.moneybox.models.Product;
 import com.example.tin.moneybox.models.User;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 public interface MainContract {
 
     interface MainScreen {
+
+        void showProducts(ArrayList<Product> products);
     }
 
     interface MainPresenter {

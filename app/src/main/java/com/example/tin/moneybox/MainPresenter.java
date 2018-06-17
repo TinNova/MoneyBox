@@ -35,6 +35,7 @@ public class MainPresenter implements MainContract.MainPresenter {
                 Log.d(TAG, "thisWeek Products ArrayList: " + products);
                 Log.d(TAG, "thisWeek Products ArrayList: " + products);
 
+                mainScreen.showProducts(products);
             }
         });
 

@@ -3,9 +3,12 @@ package com.example.tin.moneybox;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.tin.moneybox.models.Product;
 import com.example.tin.moneybox.models.User;
 
 import java.util.ArrayList;
@@ -22,12 +25,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     String lastName;
     String title;
 
+    /*
+     * Needed to populate the Adapter and the RecyclerView
+     */
+    private RecyclerView mRecyclerView;
+    private ProductAdapter mAdapter;
+    /* Used for savedInstanceState */
+    private ArrayList<Product> mProducts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mainPresenter = new MainPresenter(this);
+
+        /* Setting up the RecyclerView and Adapter*/
+        mRecyclerView = findViewById(R.id.rV_productList);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mAdapter = new ProductAdapter(null, getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
 
         Intent getIntent = getIntent();
 
@@ -48,5 +67,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
         Log.d(TAG, "mUser: " + mUser);
 
+    }
+
+    @Override
+    public void showProducts(ArrayList<Product> products) {
+        mProducts = products;
+        mAdapter.setProducts(products);
+        //hideLoading();
     }
 }
