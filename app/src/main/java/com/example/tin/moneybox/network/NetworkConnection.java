@@ -1,4 +1,4 @@
-package com.example.tin.moneybox;
+package com.example.tin.moneybox.network;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,7 +10,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tin.moneybox.User;
+import com.example.tin.moneybox.utils.UserJsonUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +24,8 @@ import java.util.Map;
 public class NetworkConnection {
 
     private static final String TAG = NetworkConnection.class.getSimpleName();
+
+    private ArrayList<User> mUser = new ArrayList<>();
 
     /* Header Keys */
     private static final String APP_ID_KEY = "AppId";
@@ -70,7 +78,9 @@ public class NetworkConnection {
                 /** Here we handle the response*/
                 Log.d(TAG, "onReponse loginResponse: " + loginResponse);
 
-                listener.getResponse(loginResponse);
+                mUser = UserJsonUtils.parseUserJson(loginResponse);
+
+                listener.getResponse(mUser);
 
             }
         };
@@ -100,6 +110,31 @@ public class NetworkConnection {
             }
 
             @Override
+            public String getBodyContentType() {
+                return CONTENT_TYPE_VALUE;
+            }
+
+            /*
+             * Passing in Email, Pass and Idfa via getBody as JsonObjects instead of via getParams
+             * because a Json is required
+             */
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+
+                //TODO API CALL TO LOGIN
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(EMAIL_KEY, EMAIL_FOR_TESTING);
+                    jsonObject.put(PASSWORD_KEY, PASSWORD_FOR_TESTING);
+                    jsonObject.put(IDFA_KEY, IDFA_VALUE);
+
+                } catch (JSONException exc) {
+                    exc.printStackTrace();
+                }
+                return jsonObject.toString().getBytes();
+            }
+
+            @Override
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put(EMAIL_KEY, EMAIL_FOR_TESTING);
@@ -107,6 +142,7 @@ public class NetworkConnection {
                 params.put(IDFA_KEY, IDFA_VALUE);
                 return params;
             }
+
 
         };
 

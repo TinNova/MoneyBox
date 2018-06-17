@@ -1,4 +1,4 @@
-package com.example.tin.moneybox;
+package com.example.tin.moneybox.utils;
 
 import android.net.Uri;
 import android.util.Log;

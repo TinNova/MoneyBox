@@ -4,7 +4,11 @@ package com.example.tin.moneybox;
 import android.content.Context;
 import android.util.Log;
 
-import java.net.MalformedURLException;
+import com.example.tin.moneybox.network.NetworkConnection;
+import com.example.tin.moneybox.network.NetworkListener;
+import com.example.tin.moneybox.utils.UrlUtils;
+
+import java.util.ArrayList;
 
 public class LoginPresenter implements LoginContract.LoginPresenter {
 
@@ -30,8 +34,11 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
 
         /* Use the String URL "loginUrl" to request the JSON from the server and parse it */
         NetworkConnection.getInstance(context).getLoginResponseFromHttpUrl(loginUrl, email, pass, new NetworkListener.LoginListener() {
+
             @Override
-            public void getResponse(String string) {
+            public void getResponse(ArrayList<User> user) {
+
+
 
             }
         });
