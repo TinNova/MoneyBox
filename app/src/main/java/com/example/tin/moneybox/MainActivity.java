@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void logout() {
 
-        //TODO: Delete username, password and saved token
+        //TODO: Delete username, password and saved token within this method
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
@@ -102,9 +102,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void btnProductClick(View v, int position) {
 
+        //TODO: The reason we have created the ProductPositionListener class I think is because
+        //TODO..the data is passed into the Adapter after the Adapter and RecyclerView has been created
+        //TODO..to solve this, can we try creating the Adapter and RecyclerView within the method showProducts
+        //TODO..instead of within onCreate?
         Log.d(TAG, "Item Position: " + position);
 
         Toast.makeText(this, "Clicked Position " + position, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
+
+
 
     }
 }
