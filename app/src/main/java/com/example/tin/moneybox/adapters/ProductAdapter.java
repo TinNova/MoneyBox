@@ -1,4 +1,4 @@
-package com.example.tin.moneybox;
+package com.example.tin.moneybox.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,35 +7,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.tin.moneybox.ProductPositionListener;
+import com.example.tin.moneybox.R;
 import com.example.tin.moneybox.models.Product;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-/**
- * Created by Tin on 17/06/2018.
- */
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     private ArrayList<Product> mProducts;
     private final Context context;
 
+    private ProductPositionListener productPositionListener;
+
     /* Constructor:
      * Pass in the StationPositionListener Interface into the Adapter on construction */
-    public ProductAdapter(ArrayList<Product> products, Context context) {
+    public ProductAdapter(ArrayList<Product> products, Context context, ProductPositionListener listener) {
         this.mProducts = products;
         this.context = context;
+        this.productPositionListener = listener;
+
     }
 
     // We are passing the station data via a method, not when the Adapter is created
     public void setProducts(ArrayList<Product> products) {
         this.mProducts = products;
         notifyDataSetChanged();
-
     }
 
     @NonNull
@@ -54,7 +53,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Product product = mProducts.get(position);
 
         viewHolder.btnProduct.setText(product.getFriendlyName());
-
     }
 
     @Override
@@ -74,6 +72,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
 
             btnProduct = itemView.findViewById(R.id.btn_Product);
+
+            /* Setting up the onClickListeners */
+            btnProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    /* Implementing the interface method */
+                    productPositionListener.btnProductClick(view, getAdapterPosition());
+                }
+            });
         }
     }
 }

@@ -6,9 +6,6 @@ import com.example.tin.moneybox.models.User;
 
 import java.util.ArrayList;
 
-/**
- * Created by Tin on 16/06/2018.
- */
 
 public interface LoginContract {
 
