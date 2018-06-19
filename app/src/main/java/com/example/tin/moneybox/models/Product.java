@@ -3,7 +3,6 @@ package com.example.tin.moneybox.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 
 /**
  * Created by Tin on 17/06/2018.

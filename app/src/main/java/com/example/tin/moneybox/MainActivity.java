@@ -20,9 +20,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private MainPresenter mainPresenter;
+    /* Key for Intent */
+    public static String PRODUCT_LIST = "product_list";
+    public static String POSITION_CLICKED = "positionClicked";
 
-    ArrayList<User> mUser;
+
+    private MainPresenter mainPresenter;
 
     String firstName;
     String lastName;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private ProductAdapter mAdapter;
     /* Used for savedInstanceState */
     private ArrayList<Product> mProducts;
+    ArrayList<User> mUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +113,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         //TODO..instead of within onCreate?
         Log.d(TAG, "Item Position: " + position);
 
+
         Toast.makeText(this, "Clicked Position " + position, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(POSITION_CLICKED, position);
+        intent.putParcelableArrayListExtra(PRODUCT_LIST, mProducts);
         startActivity(intent);
-
-
-
     }
+
 }
