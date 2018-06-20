@@ -66,4 +66,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         moneyboxTv.setText(String.valueOf(moneybox));
 
     }
+
+    @Override
+    public void updateMoneyBox(int moneybox) {
+
+        moneyboxTv.setText(String.valueOf(moneybox));
+
+        Toast.makeText(this, "£10 Deposited!", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -14,7 +14,7 @@ public class ProductJsonUtils {
 
     private static final String TAG = ProductJsonUtils.class.getSimpleName();
 
-    /* Values */
+    /* Values, "TW" stands for ThisWeek */
     private static final String TW_IVESTOR_PRODUCT_ID = "InvestorProductId";
     private static final String TW_IVESTOR_PRODUCT_TYPE = "InvestorProductType";
     private static final String TW_PRODUCT_ID = "ProductId";

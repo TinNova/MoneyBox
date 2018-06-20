@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.tin.moneybox.utils.OneOfPaymentUtils.parseOneOffPaymentJson;
+
 
 public class NetworkConnection {
 
@@ -41,7 +43,7 @@ public class NetworkConnection {
     private static final String CONTENT_TYPE_VALUE = "application/json";
     private static final String APP_VERSION_VALUE = "4.11.0";
     private static final String API_VERSION_VALUE = "3.0.0";
-    private String BEAER_TOKEN;
+    private String BEARER_TOKEN;
 
     /* Login Credential Keys */
     private static final String EMAIL_KEY = "Email";
@@ -52,6 +54,11 @@ public class NetworkConnection {
 
     private String EMAIL_FOR_TESTING = "test+env12@moneyboxapp.com";
     private String PASSWORD_FOR_TESTING = "Money$$box@107";
+
+    /* Keys for MoneyBox Deposit */
+    private static final String INVESTOR_PRODUCT_ID = "InvestorProductId";
+    private static final String AMOUNT_TO_DEPOSIT = "Amount";
+    private static final int DEPOSIT_AMOUNT = 10;
 
     private static NetworkConnection instance = null;
 
@@ -152,9 +159,9 @@ public class NetworkConnection {
     public void getThisWeekResponseFromHttpUrl(String url, final ArrayList<User> user, final NetworkListener.ThisWeekListener listener) {
 
         //TODO: Save Bearer In SavedPreferences Instead, this will ensure it's easier to access??
-        BEAER_TOKEN = "Bearer " + user.get(0).getSessionBearerToken();
+        BEARER_TOKEN = "Bearer " + user.get(0).getSessionBearerToken();
 
-        Log.d(TAG, "BearerToken: " + BEAER_TOKEN);
+        Log.d(TAG, "BearerToken: " + BEARER_TOKEN);
 
         /* Handler for the JSON response when server returns ok */
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -193,7 +200,7 @@ public class NetworkConnection {
                 headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
                 headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
                 headers.put(API_VERSION_KEY, API_VERSION_VALUE);
-                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
+                headers.put(AUTHORIZATION_KEY, BEARER_TOKEN);
                 return headers;
             }
         };
@@ -236,7 +243,7 @@ public class NetworkConnection {
                 headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
                 headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
                 headers.put(API_VERSION_KEY, API_VERSION_VALUE);
-                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
+                headers.put(AUTHORIZATION_KEY, BEARER_TOKEN);
                 return headers;
             }
         };
@@ -254,9 +261,11 @@ public class NetworkConnection {
             public void onResponse(String response) {
 
                 /** Here we handle the response*/
-                String string = "dfd";
-                Log.d(TAG, "Deposit Reposnse Successful");
-                listener.getResponse(string);
+                int amountInMoneybox = parseOneOffPaymentJson(response);
+
+                Log.d(TAG, "Amount Deposited: " + amountInMoneybox);
+
+                listener.getResponse(amountInMoneybox);
             }
         };
 
@@ -280,7 +289,7 @@ public class NetworkConnection {
                 headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
                 headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
                 headers.put(API_VERSION_KEY, API_VERSION_VALUE);
-                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
+                headers.put(AUTHORIZATION_KEY, BEARER_TOKEN);
                 return headers;
             }
 
@@ -298,7 +307,7 @@ public class NetworkConnection {
 
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(AMOUNT_TO_DEPOSIT, 10);
+                    jsonObject.put(AMOUNT_TO_DEPOSIT, DEPOSIT_AMOUNT);
                     jsonObject.put(INVESTOR_PRODUCT_ID, investorProductId);
 
                 } catch (JSONException exc) {
@@ -310,10 +319,4 @@ public class NetworkConnection {
 
         mRequestQueue.add(request);
     }
-
-    private static final String INVESTOR_PRODUCT_ID = "InvestorProductId";
-    private static final String AMOUNT_TO_DEPOSIT = "Amount";
-
-
-
 }

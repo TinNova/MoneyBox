@@ -20,6 +20,6 @@ public interface NetworkListener {
     }
 
     interface OneOffPaymentListener {
-        void getResponse(String string);
+        void getResponse(int amountInMoneybox);
     }
 }

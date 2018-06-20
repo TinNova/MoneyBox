@@ -13,6 +13,8 @@ public interface DetailContract {
     interface DetailScreen {
 
         void populateDetailView(int moneybox, String friendlyName);
+
+        void updateMoneyBox(int moneybox);
     }
 
     interface DetailPresenter {

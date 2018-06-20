@@ -44,9 +44,9 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
         NetworkConnection.getInstance(context).getOneOffPaymentsResponseFromHttpUrl(oneOffPaymentsUrl, investorProductId, new NetworkListener.OneOffPaymentListener() {
 
             @Override
-            public void getResponse(String string) {
+            public void getResponse(int amountInMoneybox) {
 
-                String ttt = string;
+                detailScreen.updateMoneyBox(amountInMoneybox);
             }
         });
 
