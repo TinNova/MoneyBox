@@ -1,10 +1,9 @@
 package com.example.tin.moneybox;
 
-import android.content.Context;
+import com.example.tin.moneybox.models.Product;
 
-/**
- * Created by Tin on 18/06/2018.
- */
+import java.util.ArrayList;
+
 
 public class DetailPresenter implements DetailContract.DetailPresenter {
 
@@ -14,4 +13,14 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
         this.detailScreen = screen;
     }
 
+    @Override
+    public void prepareArrayListData(ArrayList<Product> mProducts, int position) {
+
+        Product product = mProducts.get(position);
+
+        int moneybox = product.getMoneybox();
+        String productFriendlyName = product.getFriendlyName();
+
+        detailScreen.populateDetailView(moneybox, productFriendlyName);
+    }
 }
