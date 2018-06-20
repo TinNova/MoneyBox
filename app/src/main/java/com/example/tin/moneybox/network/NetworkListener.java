@@ -18,4 +18,8 @@ public interface NetworkListener {
     interface LogoutListener {
         void getResponse(String string);
     }
+
+    interface OneOffPaymentListener {
+        void getResponse(String string);
+    }
 }

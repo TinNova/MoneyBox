@@ -19,5 +19,7 @@ public interface DetailContract {
 
         void prepareArrayListData(ArrayList<Product> mProducts, int position);
 
+        void depositMoney(DetailActivity context);
+
     }
 }

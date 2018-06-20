@@ -243,4 +243,77 @@ public class NetworkConnection {
 
         mRequestQueue.add(request);
     }
+
+    public void getOneOffPaymentsResponseFromHttpUrl(String url, final int investorProductId, final NetworkListener.OneOffPaymentListener listener) {
+
+        /* Handler for the JSON response when server returns ok */
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+            /* If response is successful */
+            @Override
+            public void onResponse(String response) {
+
+                /** Here we handle the response*/
+                String string = "dfd";
+                Log.d(TAG, "Deposit Reposnse Successful");
+                listener.getResponse(string);
+            }
+        };
+
+        /* Handler for when the server returns an error response */
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.d(TAG, "onErrorResponse login() " + error);
+                error.printStackTrace();
+            }
+        };
+
+        /* This is the body of the Request */
+        StringRequest request = new StringRequest(Request.Method.POST, url, responseListener, errorListener) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put(APP_ID_KEY, APP_ID_VALUE);
+                headers.put(CONTENT_TYPE_KEY, CONTENT_TYPE_VALUE);
+                headers.put(APP_VERSION_KEY, APP_VERSION_VALUE);
+                headers.put(API_VERSION_KEY, API_VERSION_VALUE);
+                headers.put(AUTHORIZATION_KEY, BEAER_TOKEN);
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return CONTENT_TYPE_VALUE;
+            }
+
+            /*
+             * Passing in deposit amount and InvestorProductID as JsonObjects instead of via getParams
+             * because a Json is required
+             */
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(AMOUNT_TO_DEPOSIT, 10);
+                    jsonObject.put(INVESTOR_PRODUCT_ID, investorProductId);
+
+                } catch (JSONException exc) {
+                    exc.printStackTrace();
+                }
+                return jsonObject.toString().getBytes();
+            }
+        };
+
+        mRequestQueue.add(request);
+    }
+
+    private static final String INVESTOR_PRODUCT_ID = "InvestorProductId";
+    private static final String AMOUNT_TO_DEPOSIT = "Amount";
+
+
+
 }

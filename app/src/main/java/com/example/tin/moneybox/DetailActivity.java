@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     int positionClicked;
 
     TextView moneyboxTv;
+    Button depositBtn;
 
 
     @Override
@@ -32,21 +35,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailPresenter = new DetailPresenter(this);
 
         moneyboxTv = findViewById(R.id.tV_moneybox);
+        depositBtn = findViewById(R.id.btn_depositMoney);
 
         Intent getIntent = getIntent();
 
         if (getIntent != null) {
             mProducts = getIntent.getParcelableArrayListExtra(MainActivity.PRODUCT_LIST);
-            positionClicked = getIntent.getIntExtra(MainActivity.POSITION_CLICKED,-1);
-            Log.d(TAG, "List: " + mProducts);
-            Log.d(TAG, "positionClicked: " + positionClicked);
+            positionClicked = getIntent.getIntExtra(MainActivity.POSITION_CLICKED, -1);
 
             detailPresenter.prepareArrayListData(mProducts, positionClicked);
+
+            depositBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    detailPresenter.depositMoney(DetailActivity.this);
+                }
+            });
 
         } else {
             Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override

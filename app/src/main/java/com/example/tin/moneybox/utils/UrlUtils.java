@@ -35,12 +35,12 @@ public class UrlUtils {
         return buildLogOutUrl();
     }
 
-    public static String thisWeekUrl() {
+    public static String getThisWeekUrl() {
 
         return buildThisWeekUrl();
     }
 
-    public static String oneOffPaymentsUrl() {
+    public static String getOneOffPaymentsUrl() {
 
         return buildOneOffPaymentsUrl();
     }
