@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "MAIN ACTIVITY onStart");
+
+
         mainPresenter = new MainPresenter(this);
 
         logOutButton = findViewById(R.id.btn_Logout);
@@ -120,6 +123,49 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         intent.putExtra(POSITION_CLICKED, position);
         intent.putParcelableArrayListExtra(PRODUCT_LIST, mProducts);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "MAIN ACTIVITY onStart");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* Called when user returns to MainActivity from DetailActivity, it ensures data is updated */
+        mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
+
+        Log.d(TAG, "MAIN ACTIVITY onResume");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG, "MAIN ACTIVITY onPause");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "MAIN ACTIVITY onStop");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "MAIN ACTIVITY onDestroy");
+
     }
 
 }
