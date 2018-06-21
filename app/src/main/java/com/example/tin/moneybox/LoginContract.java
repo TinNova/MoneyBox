@@ -12,6 +12,8 @@ public interface LoginContract {
     interface LoginScreen {
 
         void launchMainActivity(ArrayList<User> user);
+
+        void showLoading();
     }
 
 

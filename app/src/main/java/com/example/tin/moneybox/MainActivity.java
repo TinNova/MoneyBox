@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "MAIN ACTIVITY onStart");
+        Log.d(TAG, "MAIN ACTIVITY onCreate");
 
 
         mainPresenter = new MainPresenter(this);

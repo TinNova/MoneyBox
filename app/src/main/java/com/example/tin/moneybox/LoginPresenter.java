@@ -29,7 +29,7 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
         Log.d(TAG, "email & password: " + email + ", " + pass);
 
         String loginUrl = UrlUtils.getLoginUrl();
-        // Show Loading Screen
+        loginScreen.showLoading();
 
         /* Use the String URL "loginUrl" to request the JSON from the server and parse it */
         NetworkConnection.getInstance(context).getLoginResponseFromHttpUrl(loginUrl, email, pass, new NetworkListener.LoginListener() {

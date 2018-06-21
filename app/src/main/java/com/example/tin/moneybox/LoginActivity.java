@@ -3,9 +3,12 @@ package com.example.tin.moneybox;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.tin.moneybox.models.User;
 
@@ -17,21 +20,26 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     public static String USER_ARRAY_LIST;
 
     private LoginPresenter loginPresenter;
+    private TextView emailTextView;
+    private TextView passTextView;
 
     private Button loginButton;
     private EditText emailEditText;
     private EditText passEditText;
 
+    private ProgressBar loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        loadingIndicator = findViewById(R.id.pB_lgn_loading);
+
         /* Initialising all of the buttons */
-        loginButton = findViewById(R.id.btn_Login);
-        emailEditText = findViewById(R.id.emailEditText);
-        passEditText = findViewById(R.id.passEditText);
+        loginButton = findViewById(R.id.btn_lgn_login);
+        emailEditText = findViewById(R.id.eT_lgn_email);
+        passEditText = findViewById(R.id.eT_lgn_pass);
 
         loginPresenter = new LoginPresenter(this);
 
@@ -58,4 +66,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
         startActivity(intent);
     }
+
+    @Override
+    public void showLoading() {
+
+        loadingIndicator.setVisibility(View.VISIBLE);
+
+        emailTextView = findViewById(R.id.tV_lgn_email);
+        passTextView = findViewById(R.id.tV_lgn_pass);
+        emailTextView.setVisibility(View.INVISIBLE);
+        emailEditText.setVisibility(View.INVISIBLE);
+        passTextView.setVisibility(View.INVISIBLE);
+        passEditText.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.INVISIBLE);
+    }
+
 }
