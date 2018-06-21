@@ -15,7 +15,7 @@ public class UrlUtils {
     private static final String TAG = UrlUtils.class.getSimpleName();
 
     /* Base url for the URL */
-    private static final String BASE_MONEYBOX_URL = "https://api-test00.moneyboxapp.com";
+    private static final String BASE_MONEYBOX_URL = "https://api-test00.test.com";
 
     /* Paths */
     private static final String USERS = "users";
