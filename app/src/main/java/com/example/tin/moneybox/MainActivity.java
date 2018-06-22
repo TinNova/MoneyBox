@@ -1,6 +1,8 @@
 package com.example.tin.moneybox;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tin.moneybox.adapters.ProductAdapter;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     String title;
 
     private Button logOutButton;
+    private TextView titleTextView;
+    private ProgressBar loadingIndicator;
 
     /*
      * Needed to populate the Adapter and the RecyclerView
@@ -50,13 +56,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
         Log.d(TAG, "MAIN ACTIVITY onCreate");
 
-
         mainPresenter = new MainPresenter(this);
 
-        logOutButton = findViewById(R.id.btn_Logout);
+        logOutButton = findViewById(R.id.btn_main_Logout);
+        titleTextView = findViewById(R.id.tV_main_title);
+        loadingIndicator = findViewById(R.id.pB_main_loading);
 
         /* Setting up the RecyclerView and Adapter*/
-        mRecyclerView = findViewById(R.id.rV_productList);
+        mRecyclerView = findViewById(R.id.rV_main_productList);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -96,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     public void showProducts(ArrayList<Product> products) {
         mProducts = products;
         mAdapter.setProducts(products);
-        //hideLoading();
+        hideLoading();
     }
 
     @Override
@@ -123,6 +130,57 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         intent.putExtra(POSITION_CLICKED, position);
         intent.putParcelableArrayListExtra(PRODUCT_LIST, mProducts);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        /* Make pop-up appear prompting user that they are about to logout */
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        final View dialogView = getLayoutInflater().inflate(R.layout.dialog_logout, null);
+        Button logoutButton = dialogView.findViewById(R.id.btn_dialog_logout);
+        Button cancelButton = dialogView.findViewById(R.id.btn_dialog_cancel);
+
+        mBuilder.setView(dialogView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainPresenter.startLogOut(MainActivity.this);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
+    @Override
+    public void showLoading() {
+
+        loadingIndicator.setVisibility(View.VISIBLE);
+
+        logOutButton.setVisibility(View.INVISIBLE);
+        titleTextView.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+        loadingIndicator.setVisibility(View.INVISIBLE);
+
+        logOutButton.setVisibility(View.VISIBLE);
+        titleTextView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
     }
 
     @Override

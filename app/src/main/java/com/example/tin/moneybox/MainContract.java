@@ -16,6 +16,10 @@ public interface MainContract {
         void showProducts(ArrayList<Product> products);
 
         void logout();
+
+        void showLoading();
+
+        void hideLoading();
     }
 
     interface MainPresenter {

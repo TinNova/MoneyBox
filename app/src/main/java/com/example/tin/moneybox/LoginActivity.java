@@ -35,11 +35,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
         setContentView(R.layout.activity_login);
 
         loadingIndicator = findViewById(R.id.pB_lgn_loading);
-
-        /* Initialising all of the buttons */
         loginButton = findViewById(R.id.btn_lgn_login);
         emailEditText = findViewById(R.id.eT_lgn_email);
         passEditText = findViewById(R.id.eT_lgn_pass);
+        emailTextView = findViewById(R.id.tV_lgn_email);
+        passTextView = findViewById(R.id.tV_lgn_pass);
 
         loginPresenter = new LoginPresenter(this);
 
@@ -72,8 +72,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
 
         loadingIndicator.setVisibility(View.VISIBLE);
 
-        emailTextView = findViewById(R.id.tV_lgn_email);
-        passTextView = findViewById(R.id.tV_lgn_pass);
         emailTextView.setVisibility(View.INVISIBLE);
         emailEditText.setVisibility(View.INVISIBLE);
         passTextView.setVisibility(View.INVISIBLE);

@@ -27,6 +27,7 @@ public class MainPresenter implements MainContract.MainPresenter {
     public void getThisWeekResponse(MainActivity context, ArrayList<User> user) {
 
         String thisWeekUrl = UrlUtils.getThisWeekUrl();
+        mainScreen.showLoading();
 
         /* Use the String URL "loginUrl" to request the JSON from the server and parse it */
         NetworkConnection.getInstance(context).getThisWeekResponseFromHttpUrl(thisWeekUrl, user, new NetworkListener.ThisWeekListener() {
