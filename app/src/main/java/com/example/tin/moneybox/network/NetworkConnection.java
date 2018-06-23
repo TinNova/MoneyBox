@@ -185,8 +185,10 @@ public class NetworkConnection {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.d(TAG, "onErrorResponse login() " + error);
-                error.printStackTrace();
+                Log.e(TAG, "error = " + Log.getStackTraceString(error));
+                mProduct = null;
+                listener.getResponse(mProduct);
+
             }
         };
 
@@ -208,6 +210,7 @@ public class NetworkConnection {
         mRequestQueue.add(request);
     }
 
+
     public void getLogOutResponseFromHttpUrl(String url, final NetworkListener.LogoutListener listener) {
 
         /* Handler for the JSON response when server returns ok */
@@ -217,9 +220,7 @@ public class NetworkConnection {
             @Override
             public void onResponse(String response) {
 
-                /** Here we handle the response*/
-                String logout = "successful logout";
-                listener.getResponse(logout);
+                listener.getResponse();
             }
         };
 
@@ -230,6 +231,7 @@ public class NetworkConnection {
 
                 Log.d(TAG, "onErrorResponse login() " + error);
                 error.printStackTrace();
+                listener.getResponse();
             }
         };
 
@@ -276,6 +278,10 @@ public class NetworkConnection {
 
                 Log.d(TAG, "onErrorResponse login() " + error);
                 error.printStackTrace();
+
+                int paymentError = -1;
+                listener.getResponse(paymentError);
+
             }
         };
 

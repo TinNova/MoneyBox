@@ -24,7 +24,7 @@ public class MainPresenter implements MainContract.MainPresenter {
     }
 
     @Override
-    public void getThisWeekResponse(MainActivity context, ArrayList<User> user) {
+    public void getThisWeekResponse(final MainActivity context, ArrayList<User> user) {
 
         String thisWeekUrl = UrlUtils.getThisWeekUrl();
         mainScreen.showLoading();
@@ -35,30 +35,32 @@ public class MainPresenter implements MainContract.MainPresenter {
             @Override
             public void getResponse(ArrayList<Product> products) {
 
-                Log.d(TAG, "thisWeek Products ArrayList: " + products);
-                Log.d(TAG, "thisWeek Products ArrayList: " + products);
+                if (products == null) {
 
-                mainScreen.showProducts(products);
+                    startLogOut(context);
+                    Toast.makeText(context, context.getString(R.string.session_timed_out), Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Log.d(TAG, "thisWeek Products ArrayList: " + products);
+                    mainScreen.showProducts(products);
+                }
             }
         });
     }
 
     @Override
-    public void startLogOut(MainActivity context) {
+    public void startLogOut(final MainActivity context) {
 
         String logoutUrl = UrlUtils.getLogoutUrl();
 
-        //TODO: Implement Logout
-        Toast.makeText(context, "logout...", Toast.LENGTH_SHORT).show();
-
-        //TODO: CHECK IF TOKEN HAS EXPIRED BEFORE TRYING TO LOGOUT
         /* Use the String URL "logoutUrl" to request the JSON from the server and parse it */
         NetworkConnection.getInstance(context).getLogOutResponseFromHttpUrl(logoutUrl, new NetworkListener.LogoutListener() {
 
             @Override
-            public void getResponse(String string) {
+            public void getResponse() {
 
-                Log.v(TAG, "Logout Successful: " + string);
+                Log.v(TAG, "Logout Successful:");
 
                 mainScreen.logout();
             }

@@ -16,7 +16,7 @@ public interface NetworkListener {
     }
 
     interface LogoutListener {
-        void getResponse(String string);
+        void getResponse();
     }
 
     interface OneOffPaymentListener {

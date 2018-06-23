@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private ArrayList<Product> mProducts;
     ArrayList<User> mUser;
 
+    boolean DETAILACTIVITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new ProductAdapter(null, getApplicationContext(), this);
         mRecyclerView.setAdapter(mAdapter);
+
+        DETAILACTIVITY = false;
 
         Intent getIntent = getIntent();
 
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     @Override
     public void showProducts(ArrayList<Product> products) {
+        Log.d(TAG, "Products: " + products);
         mProducts = products;
         mAdapter.setProducts(products);
         hideLoading();
@@ -137,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         /* Make pop-up appear prompting user that they are about to logout */
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         final View dialogView = getLayoutInflater().inflate(R.layout.dialog_logout, null);
-        Button logoutButton = dialogView.findViewById(R.id.btn_dialog_logout);
-        Button cancelButton = dialogView.findViewById(R.id.btn_dialog_cancel);
+        Button logoutButton = dialogView.findViewById(R.id.btn_dialogout_logout);
+        Button cancelButton = dialogView.findViewById(R.id.btn_dialogout_cancel);
 
         mBuilder.setView(dialogView);
         final AlertDialog dialog = mBuilder.create();
@@ -191,12 +195,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
 
+        if (DETAILACTIVITY) {
         /* Called when user returns to MainActivity from DetailActivity, it ensures data is updated */
-        mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
+            mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
+        }
 
         Log.d(TAG, "MAIN ACTIVITY onResume");
 
@@ -213,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     protected void onStop() {
         super.onStop();
+
+        DETAILACTIVITY = true;
 
         Log.d(TAG, "MAIN ACTIVITY onStop");
 

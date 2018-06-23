@@ -79,6 +79,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
+    public void logout() {
+
+        //TODO: Delete username, password and saved token within this method
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

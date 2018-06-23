@@ -1,6 +1,7 @@
 package com.example.tin.moneybox;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tin.moneybox.models.Product;
 import com.example.tin.moneybox.network.NetworkConnection;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 public class DetailPresenter implements DetailContract.DetailPresenter {
 
     private static final String TAG = DetailPresenter.class.getSimpleName();
+
+    private int PAYMENT_ERROR = -1;
 
     private DetailContract.DetailScreen detailScreen;
 
@@ -36,7 +39,7 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
     }
 
     @Override
-    public void depositMoney(DetailActivity context) {
+    public void depositMoney(final DetailActivity context) {
 
         String oneOffPaymentsUrl = UrlUtils.getOneOffPaymentsUrl();
 
@@ -46,9 +49,33 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
             @Override
             public void getResponse(int amountInMoneybox) {
 
-                detailScreen.updateMoneyBox(amountInMoneybox);
+                if (amountInMoneybox == PAYMENT_ERROR) {
+                    startLogOut(context);
+
+                } else {
+                    detailScreen.updateMoneyBox(amountInMoneybox);
+                }
             }
         });
 
+    }
+
+    @Override
+    public void startLogOut(final DetailActivity context) {
+
+        String logoutUrl = UrlUtils.getLogoutUrl();
+
+        /* Use the String URL "logoutUrl" to request the JSON from the server and parse it */
+        NetworkConnection.getInstance(context).getLogOutResponseFromHttpUrl(logoutUrl, new NetworkListener.LogoutListener() {
+
+            @Override
+            public void getResponse() {
+
+                Log.v(TAG, "Logout Successful:");
+                Toast.makeText(context, context.getString(R.string.session_timed_out), Toast.LENGTH_SHORT).show();
+
+                detailScreen.logout();
+            }
+        });
     }
 }

@@ -15,6 +15,8 @@ public interface DetailContract {
         void populateDetailView(int moneybox, String friendlyName);
 
         void updateMoneyBox(int moneybox);
+
+        void logout();
     }
 
     interface DetailPresenter {
@@ -22,6 +24,8 @@ public interface DetailContract {
         void prepareArrayListData(ArrayList<Product> mProducts, int position);
 
         void depositMoney(DetailActivity context);
+
+        void startLogOut(DetailActivity context);
 
     }
 }
