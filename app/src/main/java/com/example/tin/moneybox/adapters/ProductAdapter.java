@@ -20,7 +20,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private ArrayList<Product> mProducts;
     private final Context context;
 
-    private ProductPositionListener productPositionListener;
+    private final ProductPositionListener productPositionListener;
 
     /* Constructor:
      * Pass in the StationPositionListener Interface into the Adapter on construction */

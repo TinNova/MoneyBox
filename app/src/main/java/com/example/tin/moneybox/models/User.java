@@ -3,9 +3,6 @@ package com.example.tin.moneybox.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Tin on 17/06/2018.
- */
 
 public class User implements Parcelable {
 
@@ -20,7 +17,7 @@ public class User implements Parcelable {
         this.sessionBearerToken = sessionBearerToken;
     }
 
-    protected User(Parcel in) {
+    private User(Parcel in) {
         userFirstName = in.readString();
         userLastName = in.readString();
         sessionBearerToken = in.readString();

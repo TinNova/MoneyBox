@@ -1,6 +1,5 @@
 package com.example.tin.moneybox;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +16,7 @@ public class MainPresenter implements MainContract.MainPresenter {
 
     private static final String TAG = MainPresenter.class.getSimpleName();
 
-    private MainContract.MainScreen mainScreen;
+    private final MainContract.MainScreen mainScreen;
 
     MainPresenter(MainContract.MainScreen screen) {
         this.mainScreen = screen;

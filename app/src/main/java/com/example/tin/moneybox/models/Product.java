@@ -4,10 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-/**
- * Created by Tin on 17/06/2018.
- */
-
 public class Product implements Parcelable {
 
     private final int investorProductId;
@@ -32,7 +28,7 @@ public class Product implements Parcelable {
         this.friendlyName = friendlyName;
     }
 
-    protected Product(Parcel in) {
+    private Product(Parcel in) {
         investorProductId = in.readInt();
         investorProductType = in.readString();
         productId = in.readInt();

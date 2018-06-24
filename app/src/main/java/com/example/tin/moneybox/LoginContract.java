@@ -7,7 +7,7 @@ import com.example.tin.moneybox.models.User;
 import java.util.ArrayList;
 
 
-public interface LoginContract {
+interface LoginContract {
 
     interface LoginScreen {
 

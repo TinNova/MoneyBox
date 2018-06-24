@@ -15,15 +15,15 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
 
     private static final String TAG = DetailPresenter.class.getSimpleName();
 
-    private int PAYMENT_ERROR = -1;
+    private final int PAYMENT_ERROR = -1;
 
-    private DetailContract.DetailScreen detailScreen;
+    private final DetailContract.DetailScreen detailScreen;
 
     DetailPresenter(DetailContract.DetailScreen screen) {
         this.detailScreen = screen;
     }
 
-    int investorProductId;
+    private int investorProductId;
 
     @Override
     public void prepareArrayListData(ArrayList<Product> mProducts, int position) {

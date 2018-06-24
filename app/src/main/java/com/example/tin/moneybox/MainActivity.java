@@ -1,6 +1,5 @@
 package com.example.tin.moneybox;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,17 +24,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /* Key for Intent */
-    public static String PRODUCT_LIST = "product_list";
-    public static String POSITION_CLICKED = "positionClicked";
+    public static final String PRODUCT_LIST = "product_list";
+    public static final String POSITION_CLICKED = "positionClicked";
 
-    private String SAVED_INSTANT_STATE_KEY = "save_instant_state_key";
+    private final String SAVED_INSTANT_STATE_KEY = "save_instant_state_key";
 
 
     private MainPresenter mainPresenter;
 
-    String firstName;
-    String lastName;
-    String title;
+    private String firstName;
+    private String lastName;
+    private String title;
 
     private Button logOutButton;
     private TextView titleTextView;
@@ -48,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private ProductAdapter mAdapter;
     /* Used for savedInstanceState */
     private ArrayList<Product> mProducts;
-    ArrayList<User> mUser;
+    private ArrayList<User> mUser;
 
-    boolean DETAIL_ACTIVITY;
+    private boolean DETAIL_ACTIVITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

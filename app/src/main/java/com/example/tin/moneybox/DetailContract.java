@@ -4,11 +4,8 @@ import com.example.tin.moneybox.models.Product;
 
 import java.util.ArrayList;
 
-/**
- * Created by Tin on 18/06/2018.
- */
 
-public interface DetailContract {
+interface DetailContract {
 
     interface DetailScreen {
 

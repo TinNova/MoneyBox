@@ -53,8 +53,8 @@ public class NetworkConnection {
     /* Login Credential Values */
     private static final String IDFA_VALUE = "the idfa of the ios device";
 
-    private String EMAIL_FOR_TESTING = "test+env12@moneyboxapp.com";
-    private String PASSWORD_FOR_TESTING = "Money$$box@107";
+    private final String EMAIL_FOR_TESTING = "test+env12@moneyboxapp.com";
+    private final String PASSWORD_FOR_TESTING = "Money$$box@107";
 
     /* Keys for MoneyBox Deposit */
     private static final String INVESTOR_PRODUCT_ID = "InvestorProductId";

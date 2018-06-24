@@ -3,9 +3,6 @@ package com.example.tin.moneybox.utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Tin on 20/06/2018.
- */
 
 public class OneOfPaymentUtils {
 

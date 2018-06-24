@@ -5,11 +5,8 @@ import com.example.tin.moneybox.models.User;
 
 import java.util.ArrayList;
 
-/**
- * Created by Tin on 17/06/2018.
- */
 
-public interface MainContract {
+interface MainContract {
 
     interface MainScreen {
 

@@ -6,9 +6,6 @@ import android.util.Log;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by Tin on 16/06/2018.
- */
 
 public class UrlUtils {
 
@@ -112,7 +109,7 @@ public class UrlUtils {
         }
     }
 
-    private static String convertUrlToString(URL url) throws MalformedURLException {
+    private static String convertUrlToString(URL url) {
 
         return url.toString();
     }

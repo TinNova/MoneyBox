@@ -1,8 +1,5 @@
 package com.example.tin.moneybox.utils;
 
-/**
- * Created by Tin on 24/06/2018.
- */
 
 public class EmailValidationUtils {
 
