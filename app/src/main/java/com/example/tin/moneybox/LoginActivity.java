@@ -9,10 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tin.moneybox.models.User;
 
 import java.util.ArrayList;
+
+import static com.example.tin.moneybox.utils.EmailValidationUtils.isEmailValid;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.LoginScreen {
 
@@ -52,8 +55,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
                 String email = emailEditText.getText().toString();
                 String pass = passEditText.getText().toString();
 
-                loginPresenter.startLogin(LoginActivity.this, email, pass);
+                if (!pass.isEmpty() && isEmailValid(email)) {
 
+                    loginPresenter.startLogin(LoginActivity.this, email, pass);
+                } else {
+                    Toast.makeText(LoginActivity.this, LoginActivity.this.getString(R.string.incorrect_login_details), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -71,12 +78,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     public void showLoading() {
 
         loadingIndicator.setVisibility(View.VISIBLE);
-
         emailTextView.setVisibility(View.INVISIBLE);
         emailEditText.setVisibility(View.INVISIBLE);
         passTextView.setVisibility(View.INVISIBLE);
         passEditText.setVisibility(View.INVISIBLE);
         loginButton.setVisibility(View.INVISIBLE);
     }
-
 }

@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     public static String PRODUCT_LIST = "product_list";
     public static String POSITION_CLICKED = "positionClicked";
 
+    private String SAVED_INSTANT_STATE_KEY = "save_instant_state_key";
+
 
     private MainPresenter mainPresenter;
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private ArrayList<Product> mProducts;
     ArrayList<User> mUser;
 
-    boolean DETAILACTIVITY;
+    boolean DETAIL_ACTIVITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,23 +73,30 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         mAdapter = new ProductAdapter(null, getApplicationContext(), this);
         mRecyclerView.setAdapter(mAdapter);
 
-        DETAILACTIVITY = false;
+        DETAIL_ACTIVITY = false;
 
-        Intent getIntent = getIntent();
-
-        if (getIntent != null) {
-            mUser = getIntent.getParcelableArrayListExtra(LoginActivity.USER_ARRAY_LIST);
-
-            firstName = mUser.get(0).getUserFirstName();
-            lastName = mUser.get(0).getUserLastName();
-            title = "Welcome, " + " " + firstName + " " + lastName;
-
-            setTitle(title);
-
-            mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
-
+        /* If There isn't a savedInstanceState, Download The Data And Build The RecyclerView */
+        if (savedInstanceState != null) {
+            mProducts = savedInstanceState.getParcelableArrayList(SAVED_INSTANT_STATE_KEY);
+            showProducts(mProducts);
         } else {
-            Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
+
+            Intent getIntent = getIntent();
+
+            if (getIntent != null) {
+                mUser = getIntent.getParcelableArrayListExtra(LoginActivity.USER_ARRAY_LIST);
+
+                firstName = mUser.get(0).getUserFirstName();
+                lastName = mUser.get(0).getUserLastName();
+                title = "Welcome, " + " " + firstName + " " + lastName;
+
+                setTitle(title);
+
+                mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
+
+            } else {
+                title = this.getString(R.string.welcome_back) + firstName;
+            }
         }
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -120,13 +129,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     @Override
     public void btnProductClick(View v, int position) {
-
-        //TODO: The reason we have created the ProductPositionListener class I think is because
-        //TODO..the data is passed into the Adapter after the Adapter and RecyclerView has been created
-        //TODO..to solve this, can we try creating the Adapter and RecyclerView within the method showProducts
-        //TODO..instead of within onCreate?
-        Log.d(TAG, "Item Position: " + position);
-
 
         Toast.makeText(this, "Clicked Position " + position, Toast.LENGTH_SHORT).show();
 
@@ -169,22 +171,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     public void showLoading() {
 
         loadingIndicator.setVisibility(View.VISIBLE);
-
         logOutButton.setVisibility(View.INVISIBLE);
         titleTextView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
     public void hideLoading() {
 
         loadingIndicator.setVisibility(View.INVISIBLE);
-
         logOutButton.setVisibility(View.VISIBLE);
         titleTextView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     protected void onResume() {
         super.onResume();
 
-        if (DETAILACTIVITY) {
+        if (DETAIL_ACTIVITY) {
         /* Called when user returns to MainActivity from DetailActivity, it ensures data is updated */
             mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
         }
@@ -221,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     protected void onStop() {
         super.onStop();
 
-        DETAILACTIVITY = true;
+        DETAIL_ACTIVITY = true;
 
         Log.d(TAG, "MAIN ACTIVITY onStop");
 
@@ -233,6 +231,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
         Log.d(TAG, "MAIN ACTIVITY onDestroy");
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        /* Saving mWeather to be reused should the device rotate */
+        outState.putParcelableArrayList(SAVED_INSTANT_STATE_KEY, mProducts);
     }
 
 }

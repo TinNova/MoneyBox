@@ -28,11 +28,11 @@ public class DetailPresenter implements DetailContract.DetailPresenter {
     @Override
     public void prepareArrayListData(ArrayList<Product> mProducts, int position) {
 
-        Product product = mProducts.get(position);
+        //Product product = mProducts.get(position);
 
-        int moneybox = product.getMoneybox();
-        String productFriendlyName = product.getFriendlyName();
-        investorProductId = product.getInvestorProductId();
+        int moneybox = mProducts.get(position).getMoneybox();
+        String productFriendlyName = mProducts.get(position).getFriendlyName();
+        investorProductId = mProducts.get(position).getInvestorProductId();
 
         detailScreen.populateDetailView(moneybox, productFriendlyName);
 

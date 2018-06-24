@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tin.moneybox.BuildConfig;
 import com.example.tin.moneybox.models.Product;
 import com.example.tin.moneybox.models.User;
 import com.example.tin.moneybox.utils.ProductJsonUtils;
@@ -39,7 +40,7 @@ public class NetworkConnection {
     private static final String API_VERSION_KEY = "apiVersion";
     private static final String AUTHORIZATION_KEY = "Authorization";
     /* Header Values */
-    private static final String APP_ID_VALUE = "3a97b932a9d449c981b595";
+    private static final String APP_ID_VALUE = BuildConfig.MB_API_KEY;
     private static final String CONTENT_TYPE_VALUE = "application/json";
     private static final String APP_VERSION_VALUE = "4.11.0";
     private static final String API_VERSION_VALUE = "3.0.0";
