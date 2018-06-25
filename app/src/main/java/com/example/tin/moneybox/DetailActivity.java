@@ -40,8 +40,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Log.d(TAG, "DETAIL ACTIVITY onCreate");
-
         detailPresenter = new DetailPresenter(this);
 
         moneyboxTv = findViewById(R.id.tV_moneybox);
@@ -65,7 +63,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 detailPresenter.prepareArrayListData(mProducts, positionClicked);
 
             } else {
-                Toast.makeText(this, "Error loading data, please try again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, this.getString(R.string.error_loading), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -101,7 +99,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     public void logout() {
 
-        //TODO: Delete username, password and saved token within this method
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
                 firstName = mUser.get(0).getUserFirstName();
                 lastName = mUser.get(0).getUserLastName();
-                title = "Welcome, " + " " + firstName + " " + lastName;
+
+                title = this.getString(R.string.welcome_back) + firstName;
 
                 setTitle(title);
 
@@ -106,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
             }
         });
 
-        Log.d(TAG, "mUser: " + mUser);
-
     }
 
     @Override
@@ -121,15 +120,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void logout() {
 
-        //TODO: Delete username, password and saved token within this method
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void btnProductClick(View v, int position) {
-
-        Toast.makeText(this, "Clicked Position " + position, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(POSITION_CLICKED, position);
@@ -185,15 +181,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.d(TAG, "MAIN ACTIVITY onStart");
-
-    }
-
-
-    @Override
     protected void onResume() {
         super.onResume();
 
@@ -201,17 +188,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         /* Called when user returns to MainActivity from DetailActivity, it ensures data is updated */
             mainPresenter.getThisWeekResponse(MainActivity.this, mUser);
         }
-
-        Log.d(TAG, "MAIN ACTIVITY onResume");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Log.d(TAG, "MAIN ACTIVITY onPause");
-
     }
 
     @Override
@@ -219,17 +195,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         super.onStop();
 
         DETAIL_ACTIVITY = true;
-
-        Log.d(TAG, "MAIN ACTIVITY onStop");
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Log.d(TAG, "MAIN ACTIVITY onDestroy");
-
     }
 
     @Override
@@ -239,5 +204,4 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         /* Saving mWeather to be reused should the device rotate */
         outState.putParcelableArrayList(SAVED_INSTANT_STATE_KEY, mProducts);
     }
-
 }
